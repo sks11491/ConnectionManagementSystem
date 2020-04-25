@@ -50,12 +50,12 @@ class HomeController extends Controller
                 'friend_id' => $requestedUser->id,
                 'status' => 0,
             ]);
-          //$this->dispatch(new LogUserActions($friendUserObj))->delay(60 * 2);
             return Redirect::back()->with('status', 'Friend Request is sent!!');
         } else {
             return Redirect::back()->with('status', 'Friend Request is already served');
         }
     }
+    
     /**
      * Handles an accept friend request
      */
@@ -71,6 +71,7 @@ class HomeController extends Controller
             return Redirect::back()->with('status', 'Invalid Request');
         }
     }
+
     /**
      * Handles a block request
      */
@@ -90,6 +91,9 @@ class HomeController extends Controller
         }
     }
 
+    /**
+     * Handles a list-log request
+     */
     public function listUserActionLogs()
     {
         $logs = \UserActionLogHelper::userActionLists();
