@@ -9,7 +9,7 @@ Step 3:<br/>
 create a database and update configuration settings in .env file [ If .env is not available copy .env.example file and rename it]
 
 Step 4:<br/>
-Update setting for QUEUE_CONNECTION=database
+Update setting for QUEUE_CONNECTION=database in .env file
 
 
 Step 5:<br/>
