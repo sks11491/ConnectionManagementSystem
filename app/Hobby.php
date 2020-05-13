@@ -8,5 +8,4 @@ use App\User;
 class Hobby extends Model
 {
     protected $table = "hobbies";
-
 }
