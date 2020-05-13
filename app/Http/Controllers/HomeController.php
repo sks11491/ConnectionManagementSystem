@@ -31,21 +31,17 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $loggedInUserId = Auth::user()->id;
-        $blockedUsers = FriendUser::where('friend_id', $loggedInUserId)->where('status', 2)->pluck('user_id')->toArray();
-        $users = User::where('id', "!=", $loggedInUserId)->whereNotIn('id',$blockedUsers)->latest()->get();
-        return view('home')->with('users', $users);
+        $users = User::friendList();
+        return view('home', compact('users'));
     }
 
     /**
      * Handles a friend request
      */
-    public function friendRequest($friend_id) {
-        $requestedUser = User::findOrFail($friend_id);
-        $checkFriendship = FriendUser::where('user_id', Auth::user()->id)
-        ->where('friend_id', $requestedUser->id)->first();
+    public function friendRequest(User $requestedUser) {
+        $checkFriendship = User::checkFriendship(Auth::user()->id, $requestedUser->id);
         if(!$checkFriendship) {
-            $friendUserObj = FriendUser::create([
+            FriendUser::create([
                 'user_id' => Auth::user()->id,
                 'friend_id' => $requestedUser->id,
                 'status' => 0,
@@ -59,10 +55,8 @@ class HomeController extends Controller
     /**
      * Handles an accept friend request
      */
-    public function acceptRequest($friend_id) {
-        $requestedUser = User::findOrFail($friend_id);
-        $checkFriendship = FriendUser::where('user_id', $requestedUser->id)
-        ->where('friend_id', Auth::user()->id)->first();
+    public function acceptRequest(User $requestedUser) {
+        $checkFriendship = User::checkFriendship($requestedUser->id, Auth::user()->id);
         if($checkFriendship) {
             $checkFriendship->status = 1;
             $checkFriendship->save();
@@ -75,10 +69,8 @@ class HomeController extends Controller
     /**
      * Handles a block request
      */
-    public function blockFriend($friend_id) {
-        $requestedUser = User::findOrFail($friend_id);
-        $checkFriendship = FriendUser::where('user_id', Auth::user()->id)
-        ->where('friend_id', $requestedUser->id)->first();
+    public function blockFriend(User $requestedUser) {
+        $checkFriendship = User::checkFriendship(Auth::user()->id, $requestedUser->id);
         if(!$checkFriendship) {
             FriendUser::create([
                 'user_id' => Auth::user()->id,

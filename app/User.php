@@ -83,4 +83,17 @@ class User extends Authenticatable
             return -1;
         }
     }
+
+    public static function friendList()
+    {
+        $loggedInUserId = Auth::user()->id;
+        $blockedUsers = FriendUser::where('friend_id', $loggedInUserId)->where('status', 2)->pluck('user_id')->toArray();
+        $users = User::where('id', "!=", $loggedInUserId)->whereNotIn('id',$blockedUsers)->latest()->get();
+        return $users;
+    }
+
+    public static function checkFriendship($requestFromUserId, $requestToUserID)
+    {
+        return FriendUser::where('user_id', $requestFromUserId)->where('friend_id', $requestToUserID)->first();
+    }
 }

@@ -43,12 +43,12 @@
                                     <span class="text-danger"><srtong>Blocked</srtong></span>
                                     @php $showBlockedLink = false; @endphp
                                 @elseif ($user->getFrienshipStatus() == 4)
-                                    <a href="{{ route('acceptFriendRequest', ['friend_id' => $user->id]) }}">Accept Friend Request</a>
+                                    <a href="{{ route('acceptFriendRequest', ['requestedUser' => $user->id]) }}">Accept Friend Request</a>
                                 @else
-                                    <a href="{{ route('sendFriendRequest', ['friend_id' => $user->id]) }}">Send Friend Request</a>
+                                    <a href="{{ route('sendFriendRequest', ['requestedUser' => $user->id]) }}">Send Friend Request</a>
                                 @endif                          
                                 @if ($showBlockedLink)
-                                 | <a href="{{ route('blockFriendRequest', ['friend_id' => $user->id]) }}">Block</a>
+                                 | <a href="{{ route('blockFriendRequest', ['requestedUser' => $user->id]) }}">Block</a>
                                  @endif
                                  </td>
                             </tr>

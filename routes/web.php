@@ -20,9 +20,9 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/home/send-friend-request/{friend_id}', 'HomeController@friendRequest')->name('sendFriendRequest');
-    Route::get('/home/accept-friend-request/{friend_id}', 'HomeController@acceptRequest')->name('acceptFriendRequest');
-    Route::get('/home/block-friend-request/{friend_id}', 'HomeController@blockFriend')->name('blockFriendRequest');
+    Route::get('/home/send-friend-request/{requestedUser}', 'HomeController@friendRequest')->name('sendFriendRequest');
+    Route::get('/home/accept-friend-request/{requestedUser}', 'HomeController@acceptRequest')->name('acceptFriendRequest');
+    Route::get('/home/block-friend-request/{requestedUser}', 'HomeController@blockFriend')->name('blockFriendRequest');
     Route::get('list-logs', 'HomeController@listUserActionLogs')->name('list-logs');
 });
 
